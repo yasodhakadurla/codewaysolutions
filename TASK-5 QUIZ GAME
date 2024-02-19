@@ -1,0 +1,89 @@
+import random
+
+class Quiz:
+    def _init_(self, questions):
+        self.questions = questions
+        self.score = 0
+    
+    def display_welcome_message(self):
+        print("Welcome to the Quiz Game!")
+        print("Rules:")
+        print("1. Answer each question to the best of your ability.")
+        print("2. Each correct answer earns you a point.")
+        print("3. Enjoy the quiz!")
+
+    def present_quiz_questions(self):
+        random.shuffle(self.questions)  # Randomize question order
+        for question in self.questions:
+            print("\nQuestion:", question["question"])
+            if "choices" in question:  # Multiple-choice question
+                for i, choice in enumerate(question["choices"], 1):
+                    print(f"{i}. {choice}")
+                user_answer = input("Your answer (enter the corresponding number): ")
+                self.evaluate_user_answer(user_answer, question["answer"])
+            else:  # Fill-in-the-blank question
+                user_answer = input("Your answer: ")
+                self.evaluate_user_answer(user_answer.lower(), question["answer"].lower())
+    
+    def evaluate_user_answer(self, user_answer, correct_answer):
+        if user_answer == correct_answer:
+            print("Correct!")
+            self.score += 1
+        else:
+            print("Incorrect.")
+            print("Correct answer:", correct_answer)
+        print("Your current score is:", self.score)
+    
+    def display_final_results(self):
+        print("\nQuiz complete!")
+        print("Your final score is:", self.score)
+
+def main():
+    questions = [
+        {
+            "question": "What is the capital of France?",
+            "choices": ["London", "Paris", "Berlin", "Rome"],
+            "answer": "2"
+        },
+        {
+            "question": "Who wrote 'To Kill a Mockingbird'?",
+            "choices": ["Harper Lee", "J.K. Rowling", "Stephen King", "Ernest Hemingway"],
+            "answer": "1"
+        },
+        {
+            "question": "What is the powerhouse of the cell?",
+            "choices": ["Nucleus", "Mitochondrion", "Ribosome", "Endoplasmic reticulum"],
+            "answer": "2"
+        },
+        {
+            "question": "The capital of Italy is ____.",
+            "answer": "rome"
+        },
+        {
+            "question": "The largest planet in our solar system is ____.",
+            "answer": "jupiter"
+        },
+        {
+            "question": "What is the capital of India?",
+            "choices": ["Delhi", "Kerala", "Jammu and Kashmir", "Uttar Pradesh"],
+            "answer": "1"
+        },
+        {
+            "question": "CPU full form ____.",
+            "answer": "Central Processing Unit"
+        },
+    ]
+
+    while True:
+        quiz = Quiz(questions)
+        quiz.display_welcome_message()
+        quiz.present_quiz_questions()
+        quiz.display_final_results()
+
+        play_again = input("\nDo you want to play again? (yes/no): ")
+        if play_again.lower() != "yes":
+            print("Thanks for playing!")
+            break
+
+if _name_ == "_main_":
+    main()
